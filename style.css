@@ -1,0 +1,106 @@
+:root {
+    --primary: #FF6B6B;
+    --secondary: #4ECDC4;
+    --accent: #FFBE0B;
+    --bg: #F0F9FF;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#game-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 360px;
+    position: relative;
+    z-index: 20;
+}
+
+h1 { color: var(--primary); margin: 0 0 15px 0; font-size: 1.8rem; }
+
+.controls {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-row input {
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#score-box { color: var(--secondary); }
+#timer-box { color: #e67e22; }
+
+#question {
+    font-size: 4.5rem;
+    margin: 15px 0;
+    color: #2d3436;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+input {
+    font-size: 2.5rem;
+    width: 120px;
+    text-align: center;
+    border: 4px solid #eee;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+input:focus { border-color: var(--secondary); outline: none; }
+
+#message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 2rem;
+}
+
+.correct { color: #2ecc71; animation: bounce 0.5s; }
+.wrong { color: #e74c3c; }
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
