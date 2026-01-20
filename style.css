@@ -1,42 +1,165 @@
-/* 找到 .control-row 部分並替換如下 */
-.control-row {
-    margin-bottom: 15px;
-    font-size: 1.1rem;
+:root {
+    --primary: #FF6B6B;
+    --secondary: #4ECDC4;
+    --bg: #F0F9FF;
+    --card-white: rgba(255, 255, 255, 0.95);
+}
+
+/* 基礎重置，確保各瀏覽器一致 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+    background-color: var(--bg);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; 
-    gap: 15px; /* 增加選項間的距離 */
+    min-height: 100vh;
 }
 
-/* 針對範圍選擇標籤的特別對齊 */
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#game-box {
+    background: var(--card-white);
+    padding: 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 380px; /* 固定最大寬度防止跑位 */
+    position: relative;
+    z-index: 20;
+}
+
+h1 { 
+    color: var(--primary); 
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+}
+
+/* 控制面板：修正 Chrome 跑位核心 */
+.controls {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; /* 強制不換行，避免 Chrome 擠壓 */
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.control-row strong {
+    font-size: 1rem;
+    white-space: nowrap; /* 避免文字斷行 */
+}
+
+/* 讓選項標籤在所有瀏覽器都長一樣 */
 .control-row label {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     background: #fff;
-    padding: 5px 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 2px solid #eee;
+    font-size: 0.95rem;
+    white-space: nowrap;
     transition: 0.2s;
+}
+
+/* Chrome/Safari 的 Radio 圓圈修正 */
+.control-row input[type="radio"] {
+    appearance: radio; /* 確保瀏覽器渲染預設樣式 */
+    -webkit-appearance: radio;
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 5px !important;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 .control-row label:hover {
     border-color: var(--secondary);
-    background: #f0fdfa;
 }
 
-/* 讓 radio 圓圈跟文字保持一點距離並對齊 */
-.control-row input[type="radio"] {
-    width: 18px !important;
-    height: 18px !important;
-    margin: 0 5px 0 0 !important;
+/* 當 radio 被選中時的 label 樣式 */
+.control-row input[type="radio"]:checked + span {
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.main-btn {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
-    flex-shrink: 0; /* 防止圓圈被擠壓 */
+    width: 100%;
+    box-shadow: 0 4px 0 #3ba8a0;
 }
 
-/* 讓「範圍：」這兩個字加粗並稍微分開 */
-.control-row strong {
-    margin-right: 5px;
-    color: #333;
+/* 遊戲狀態 */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+#question {
+    font-size: clamp(3.5rem, 18vw, 4.5rem);
+    margin: 1rem 0;
+    color: #2d3436;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+input[type="number"] {
+    font-size: 2.5rem;
+    width: 130px;
+    text-align: center;
+    border: 4px solid #eee;
+    border-radius: 15px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+input:focus { border-color: var(--secondary); outline: none; }
+
+#message { font-size: 1.3rem; font-weight: bold; height: 1.6rem; margin: 10px 0; }
+.correct { color: #2ecc71; }
+.wrong { color: #e74c3c; }
+
+/* 響應式微調 */
+@media (max-width: 350px) {
+    .control-row {
+        gap: 5px;
+        font-size: 0.85rem;
+    }
+    .control-row label {
+        padding: 4px 6px;
+    }
 }
