@@ -1,155 +1,42 @@
-:root {
-    --primary: #FF6B6B;
-    --secondary: #4ECDC4;
-    --bg: #F0F9FF;
-    --card-white: rgba(255, 255, 255, 0.95);
-}
-
-/* 基礎設定 */
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* 移除手機點擊陰影 */
-}
-
-body {
-    font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
-    background-color: var(--bg);
-    margin: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    touch-action: manipulation; /* 優化手機觸控 */
-}
-
-#canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* 遊戲主容器 */
-#game-box {
-    background: var(--card-white);
-    padding: 1.5rem;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    z-index: 20;
-    transition: all 0.3s ease;
-}
-
-h1 { 
-    color: var(--primary); 
-    font-size: 1.5rem;
-    margin: 0 0 1rem 0;
-}
-
-/* 控制面板 */
-.controls {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 15px;
-    margin-bottom: 1rem;
-}
-
+/* 找到 .control-row 部分並替換如下 */
 .control-row {
-    margin-bottom: 10px;
-    font-size: 1rem;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* 自動換行 */
-    gap: 10px;
+    flex-wrap: wrap; 
+    gap: 15px; /* 增加選項間的距離 */
 }
 
-.main-btn {
-    background: var(--secondary);
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: bold;
+/* 針對範圍選擇標籤的特別對齊 */
+.control-row label {
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
-    width: 100%; /* 手機上按鈕填滿 */
-    margin-top: 5px;
-    box-shadow: 0 4px 0 #3ba8a0;
+    background: #fff;
+    padding: 5px 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: 0.2s;
 }
 
-.main-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #3ba8a0;
-}
-
-/* 遊戲中狀態 */
-.stats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-weight: bold;
-    font-size: 1rem;
-    color: #666;
-}
-
-#question {
-    font-size: clamp(3rem, 15vw, 4.5rem); /* 根據螢幕大小自動調整字體 */
-    margin: 1rem 0;
-    color: #2d3436;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-}
-
-input {
-    font-size: 2rem;
-    width: 140px;
-    text-align: center;
-    border: 4px solid #eee;
-    border-radius: 15px;
-    padding: 5px;
-    margin-bottom: 10px;
-    /* 防止 iOS 輸入時自動放大 */
-}
-
-input:focus {
+.control-row label:hover {
     border-color: var(--secondary);
-    outline: none;
+    background: #f0fdfa;
 }
 
-#message {
-    font-size: 1.2rem;
-    font-weight: bold;
-    height: 1.5rem;
-    margin: 10px 0;
+/* 讓 radio 圓圈跟文字保持一點距離並對齊 */
+.control-row input[type="radio"] {
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 5px 0 0 !important;
+    cursor: pointer;
+    flex-shrink: 0; /* 防止圓圈被擠壓 */
 }
 
-.correct { color: #2ecc71; }
-.wrong { color: #e74c3c; }
-
-/* 針對小螢幕手機的微調 (iPhone SE 等) */
-@media (max-height: 600px) {
-    #game-box {
-        padding: 1rem;
-    }
-    #question {
-        margin: 0.5rem 0;
-    }
-    h1 {
-        font-size: 1.2rem;
-    }
-}
-
-/* 針對平板以上的微調 */
-@media (min-width: 600px) {
-    #game-box {
-        padding: 2.5rem;
-    }
-    .main-btn {
-        width: auto; /* 電腦版不強制填滿 */
-    }
+/* 讓「範圍：」這兩個字加粗並稍微分開 */
+.control-row strong {
+    margin-right: 5px;
+    color: #333;
 }
