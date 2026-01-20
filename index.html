@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小小數學王 3.0</title>
+    <title>小小數學王 4.0 - 錯題加強版</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,32 +11,35 @@
 <canvas id="canvas"></canvas>
 
 <div id="game-box">
-    <h1>小小數學王 👑</h1>
+    <h1 id="game-title">小小數學王 👑</h1>
     
-    <div class="controls">
+    <div id="setup-area" class="controls">
         <div class="control-row">
-            <strong>數字範圍：</strong>
+            <strong>範圍：</strong>
             <label><input type="radio" name="range" value="10" checked> 10以內</label>
             <label><input type="radio" name="range" value="20"> 20以內</label>
         </div>
-        <div class="control-row">
-            <label>
-                <input type="checkbox" id="timer-toggle"> 
-                開啟 30秒挑戰模式
-            </label>
+        <button id="start-btn" class="main-btn">開始挑戰 (20題)</button>
+    </div>
+
+    <div id="game-area" style="display: none;">
+        <div class="stats">
+            <div>進度: <span id="progress">1</span>/20</div>
+            <div id="score-box">答對: <span id="score">0</span></div>
         </div>
+        <div id="question">--</div>
+        <input type="number" id="answer" pattern="[0-9]*" inputmode="numeric" placeholder="?">
+        <div id="message"></div>
     </div>
 
-    <div class="stats">
-        <div id="score-box">得分: <span id="score">0</span></div>
-        <div id="timer-box" style="visibility: hidden;">⏳ <span id="time-left">30</span>s</div>
+    <div id="result-area" style="display: none;">
+        <h2 id="result-title">挑戰結束！</h2>
+        <div id="result-stats" style="font-size: 1.5rem; margin: 20px 0;"></div>
+        <button id="review-btn" class="main-btn" style="display: none;">練習錯題</button>
+        <button id="restart-btn" class="main-btn">重新開始</button>
     </div>
-
-    <div id="question">--</div>
-    <input type="number" id="answer" pattern="[0-9]*" inputmode="numeric" placeholder="?">
-    <div id="message"></div>
 </div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
