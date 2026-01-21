@@ -3,9 +3,10 @@
     --secondary: #4ECDC4;
     --bg: #F0F9FF;
     --card-white: rgba(255, 255, 255, 0.95);
+    --accent: #FFBE0B;
 }
 
-/* 基礎重置，確保各瀏覽器一致 */
+/* 基礎重置 */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -25,8 +26,7 @@ body {
 
 #canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     pointer-events: none;
     z-index: 10;
 }
@@ -38,7 +38,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     text-align: center;
     width: 90%;
-    max-width: 380px; /* 固定最大寬度防止跑位 */
+    max-width: 380px;
     position: relative;
     z-index: 20;
 }
@@ -49,7 +49,7 @@ h1 {
     margin-bottom: 1.2rem;
 }
 
-/* 控制面板：修正 Chrome 跑位核心 */
+/* 控制面板與對齊修正 */
 .controls {
     background: #f8f9fa;
     padding: 15px;
@@ -61,7 +61,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: nowrap; /* 強制不換行，避免 Chrome 擠壓 */
+    flex-wrap: nowrap;
     gap: 10px;
     margin-bottom: 15px;
     width: 100%;
@@ -69,10 +69,9 @@ h1 {
 
 .control-row strong {
     font-size: 1rem;
-    white-space: nowrap; /* 避免文字斷行 */
+    white-space: nowrap;
 }
 
-/* 讓選項標籤在所有瀏覽器都長一樣 */
 .control-row label {
     display: inline-flex;
     align-items: center;
@@ -84,30 +83,17 @@ h1 {
     border: 2px solid #eee;
     font-size: 0.95rem;
     white-space: nowrap;
-    transition: 0.2s;
 }
 
-/* Chrome/Safari 的 Radio 圓圈修正 */
 .control-row input[type="radio"] {
-    appearance: radio; /* 確保瀏覽器渲染預設樣式 */
+    appearance: radio;
     -webkit-appearance: radio;
     width: 18px !important;
     height: 18px !important;
     margin-right: 5px !important;
-    cursor: pointer;
-    flex-shrink: 0;
 }
 
-.control-row label:hover {
-    border-color: var(--secondary);
-}
-
-/* 當 radio 被選中時的 label 樣式 */
-.control-row input[type="radio"]:checked + span {
-    color: var(--secondary);
-    font-weight: bold;
-}
-
+/* 按鈕樣式 */
 .main-btn {
     background: var(--secondary);
     color: white;
@@ -119,9 +105,15 @@ h1 {
     cursor: pointer;
     width: 100%;
     box-shadow: 0 4px 0 #3ba8a0;
+    transition: transform 0.1s;
 }
 
-/* 遊戲狀態 */
+.main-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #3ba8a0;
+}
+
+/* 遊戲中狀態 */
 .stats {
     display: flex;
     justify-content: space-between;
@@ -137,7 +129,7 @@ h1 {
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-input[type="number"] {
+#answer {
     font-size: 2.5rem;
     width: 130px;
     text-align: center;
@@ -145,51 +137,14 @@ input[type="number"] {
     border-radius: 15px;
     padding: 5px;
     margin-bottom: 10px;
+    background-color: #fff;
 }
-
-input:focus { border-color: var(--secondary); outline: none; }
 
 #message { font-size: 1.3rem; font-weight: bold; height: 1.6rem; margin: 10px 0; }
 .correct { color: #2ecc71; }
 .wrong { color: #e74c3c; }
 
-/* 響應式微調 */
-@media (max-width: 350px) {
-    .control-row {
-        gap: 5px;
-        font-size: 0.85rem;
-    }
-    .control-row label {
-        padding: 4px 6px;
-    }
-}
-
-/* 修正結果區域的按鈕排列 */
-#result-area {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px; /* 讓按鈕之間有固定間距 */
-}
-
-/* 讓結果頁面的按鈕寬度一致 */
-#result-area .main-btn {
-    width: 100%;
-    max-width: 200px; /* 限制最大寬度，避免電腦版太寬 */
-    margin: 0; /* 移除舊有的 margin */
-}
-
-/* 調整按鈕顏色區分 */
-#review-btn {
-    background: var(--accent, #FFBE0B); /* 錯題練習用黃色提醒 */
-    box-shadow: 0 4px 0 #d9a309;
-}
-
-#restart-btn {
-    background: var(--secondary);
-}
-
-/* 數字鍵盤容器 */
+/* 數字鍵盤 */
 #numpad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -198,7 +153,6 @@ input:focus { border-color: var(--secondary); outline: none; }
     margin: 15px auto;
 }
 
-/* 按鈕基本樣式 */
 .num-btn {
     background: white;
     border: 2px solid #ddd;
@@ -209,7 +163,6 @@ input:focus { border-color: var(--secondary); outline: none; }
     color: #444;
     cursor: pointer;
     box-shadow: 0 4px 0 #eee;
-    transition: all 0.1s;
 }
 
 .num-btn:active {
@@ -218,14 +171,30 @@ input:focus { border-color: var(--secondary); outline: none; }
     background: #f0f0f0;
 }
 
-/* 特殊按鈕顏色 */
-#num-clear {
-    background-color: #ffcfcf;
-    border-color: #ffbaba;
-    font-size: 1.1rem;
+#num-clear { background-color: #ffcfcf; border-color: #ffbaba; color: #d63031; }
+#num-back { background-color: #e0e0e0; }
+
+/* 結果區域按鈕修正 */
+#result-area {
+    display: none; /* 由 JS 改為 flex */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-#num-back {
-    background-color: #e0e0e0;
+#result-area .main-btn {
+    max-width: 220px;
 }
 
+#review-btn {
+    background: var(--accent);
+    box-shadow: 0 4px 0 #d9a309;
+}
+
+/* 小螢幕優化 */
+@media (max-width: 350px) {
+    .control-row { gap: 5px; font-size: 0.85rem; }
+    .control-row label { padding: 4px 6px; }
+    #numpad { gap: 8px; }
+    .num-btn { padding: 10px 0; }
+}
