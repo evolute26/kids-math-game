@@ -1,4 +1,3 @@
-// --- 基礎變數定義 ---
 let currentAnswer;
 let score = 0;
 let questionCount = 0;
@@ -7,8 +6,9 @@ let maxNumber = 10;
 let wrongQuestions = []; 
 let wrongQuestions_Pool = [];
 let isReviewMode = false;
+let isProcessing = false; // 新增：防止重複觸發檢查的鎖
 
-// DOM 元素
+// DOM 元素 (保持不變)
 const setupArea = document.getElementById('setup-area');
 const gameArea = document.getElementById('game-area');
 const resultArea = document.getElementById('result-area');
@@ -22,14 +22,16 @@ const reviewBtn = document.getElementById('review-btn');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
 
-// --- 事件綁定 ---
+// 事件綁定
 if (startBtn) startBtn.addEventListener('click', () => startRound(false));
 if (restartBtn) restartBtn.addEventListener('click', () => window.location.reload());
 if (reviewBtn) reviewBtn.addEventListener('click', () => startRound(true));
 
-// --- 虛擬鍵盤邏輯 ---
+// 虛擬鍵盤
 document.querySelectorAll('.num-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+        if (isProcessing) return; // 如果正在跳下一題，禁止點擊
+
         const action = this.innerText;
         let currentVal = answerInput.value;
 
@@ -38,12 +40,10 @@ document.querySelectorAll('.num-btn').forEach(btn => {
         } else if (action === '←') {
             answerInput.value = currentVal.slice(0, -1);
         } else {
-            // 限制最多兩位數
             if (currentVal.length < 2) {
                 answerInput.value = currentVal + action;
             }
         }
-        // 手動觸發檢查
         checkAnswer();
     });
 });
@@ -51,7 +51,8 @@ document.querySelectorAll('.num-btn').forEach(btn => {
 function startRound(review) {
     isReviewMode = review;
     score = 0;
-    questionCount = 0;
+    questionCount = 0; // 重置題數
+    isProcessing = false;
     
     if (!review) {
         wrongQuestions = [];
@@ -76,10 +77,12 @@ function nextQuestion() {
         return;
     }
 
+    // 只有進入新題目時才增加計數
     questionCount++;
     progressEl.innerText = questionCount;
     messageEl.innerText = "";
     answerInput.value = "";
+    isProcessing = false; // 解鎖，允許答題
 
     let n1, n2, symbol;
     if (isReviewMode) {
@@ -104,31 +107,37 @@ function nextQuestion() {
     questionEl.innerText = `${n1} ${symbol} ${n2} =`;
 }
 
-// 核心檢查邏輯 (已移除音效播放)
 function checkAnswer() {
-    const val = parseInt(answerInput.value);
+    if (isProcessing) return;
+
+    const inputVal = answerInput.value;
+    const val = parseInt(inputVal);
+    
     if (isNaN(val)) return;
 
+    // 正確答案判斷
     if (val === currentAnswer) {
+        isProcessing = true; // 鎖定：防止在顯示煙火時重複計算
         score++;
         scoreEl.innerText = score;
         messageEl.innerText = "太棒了！👏";
         messageEl.className = "correct";
         
         createFirework();
-        // 延遲下一題
         setTimeout(nextQuestion, 1000);
-    } else {
-        // 輸入長度達標時才判斷錯題
-        if (answerInput.value.length >= String(currentAnswer).length) {
-            messageEl.innerText = "再想一下喔！";
-            messageEl.className = "wrong";
-            
-            // 記錄錯題
-            const alreadyIn = wrongQuestions.some(q => q.n1 === window.currentQ.n1 && q.n2 === window.currentQ.n2 && q.symbol === window.currentQ.symbol);
-            if (!alreadyIn) {
-                wrongQuestions.push(window.currentQ);
-            }
+    } 
+    // 錯誤答案判斷：當輸入長度等於或超過正確答案位數時
+    else if (inputVal.length >= String(currentAnswer).length) {
+        messageEl.innerText = "再想一下喔！";
+        messageEl.className = "wrong";
+        
+        const alreadyIn = wrongQuestions.some(q => 
+            q.n1 === window.currentQ.n1 && 
+            q.n2 === window.currentQ.n2 && 
+            q.symbol === window.currentQ.symbol
+        );
+        if (!alreadyIn) {
+            wrongQuestions.push(window.currentQ);
         }
     }
 }
@@ -136,19 +145,22 @@ function checkAnswer() {
 function showResult() {
     gameArea.style.display = 'none';
     resultArea.style.display = 'flex'; 
-    resultStats.innerHTML = `本次挑戰 ${maxQuestions} 題<br>答對：${score} 題<br>錯題：${wrongQuestions.length} 題`;
+    
+    // 計算最終結果
+    const totalDone = isReviewMode ? maxQuestions : 20;
+    resultStats.innerHTML = `挑戰結束！<br>答對：${score} 題<br>錯題：${wrongQuestions.length} 題`;
     
     if (wrongQuestions.length > 0) {
         reviewBtn.style.display = 'block';
         wrongQuestions_Pool = [...wrongQuestions]; 
-        wrongQuestions = [];
+        wrongQuestions = []; // 清空下次練習的暫存
     } else {
         reviewBtn.style.display = 'none';
         resultStats.innerHTML += "<br>🌟 你是數學小天才！";
     }
 }
 
-// --- 粒子特效 (保持原樣) ---
+// --- 特效部分保持不變 ---
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
