@@ -128,15 +128,16 @@ answerInput.addEventListener('input', function() {
     }
 });
 
+// 修正 showResult 的顯示方式，配合 CSS flex
 function showResult() {
     gameArea.style.display = 'none';
-    resultArea.style.display = 'block';
+    resultArea.style.display = 'flex'; // 從 block 改為 flex
     resultStats.innerHTML = `本次挑戰 ${maxQuestions} 題<br>答對：${score} 題<br>錯題：${wrongQuestions.length} 題`;
     
     if (wrongQuestions.length > 0) {
-        reviewBtn.style.display = 'inline-block';
+        reviewBtn.style.display = 'block';
         wrongQuestions_Pool = [...wrongQuestions]; 
-        wrongQuestions = []; // 重置記錄，準備練習
+        wrongQuestions = [];
     } else {
         reviewBtn.style.display = 'none';
         resultStats.innerHTML += "<br>🎉 全對！你太厲害了！";
@@ -197,3 +198,4 @@ function animate() {
     });
 }
 animate();
+
