@@ -29,14 +29,31 @@
     </div>
 
     <div id="game-area" style="display: none;">
-        <div class="stats">
-            <div>進度: <span id="progress">1</span>/20</div>
-            <div id="score-box">答對: <span id="score">0</span></div>
-        </div>
-        <div id="question">--</div>
-        <input type="number" id="answer" pattern="[0-9]*" inputmode="numeric" placeholder="?">
-        <div id="message"></div>
+    <div class="stats">
+        <div>進度: <span id="progress">1</span>/20</div>
+        <div id="score-box">答對: <span id="score">0</span></div>
     </div>
+    <div id="question">--</div>
+    
+    <input type="number" id="answer" readonly placeholder="?">
+
+    <div id="numpad">
+        <button class="num-btn">1</button>
+        <button class="num-btn">2</button>
+        <button class="num-btn">3</button>
+        <button class="num-btn">4</button>
+        <button class="num-btn">5</button>
+        <button class="num-btn">6</button>
+        <button class="num-btn">7</button>
+        <button class="num-btn">8</button>
+        <button class="num-btn">9</button>
+        <button class="num-btn" id="num-clear">重填</button>
+        <button class="num-btn">0</button>
+        <button class="num-btn" id="num-back">←</button>
+    </div>
+    
+    <div id="message"></div>
+</div>
 
     <div id="result-area" style="display: none;">
         <h2 id="result-title">挑戰結束！</h2>
@@ -49,6 +66,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
