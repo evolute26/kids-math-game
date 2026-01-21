@@ -163,3 +163,28 @@ input:focus { border-color: var(--secondary); outline: none; }
         padding: 4px 6px;
     }
 }
+
+/* 修正結果區域的按鈕排列 */
+#result-area {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* 讓按鈕之間有固定間距 */
+}
+
+/* 讓結果頁面的按鈕寬度一致 */
+#result-area .main-btn {
+    width: 100%;
+    max-width: 200px; /* 限制最大寬度，避免電腦版太寬 */
+    margin: 0; /* 移除舊有的 margin */
+}
+
+/* 調整按鈕顏色區分 */
+#review-btn {
+    background: var(--accent, #FFBE0B); /* 錯題練習用黃色提醒 */
+    box-shadow: 0 4px 0 #d9a309;
+}
+
+#restart-btn {
+    background: var(--secondary);
+}
