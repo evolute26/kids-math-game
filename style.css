@@ -188,3 +188,44 @@ input:focus { border-color: var(--secondary); outline: none; }
 #restart-btn {
     background: var(--secondary);
 }
+
+/* 數字鍵盤容器 */
+#numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 280px;
+    margin: 15px auto;
+}
+
+/* 按鈕基本樣式 */
+.num-btn {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 15px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #444;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #eee;
+    transition: all 0.1s;
+}
+
+.num-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #eee;
+    background: #f0f0f0;
+}
+
+/* 特殊按鈕顏色 */
+#num-clear {
+    background-color: #ffcfcf;
+    border-color: #ffbaba;
+    font-size: 1.1rem;
+}
+
+#num-back {
+    background-color: #e0e0e0;
+}
+
